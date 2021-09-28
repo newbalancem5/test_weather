@@ -21,7 +21,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
 
   @override
   void initState() {
-    data = HttpWeatherServices.weatherData();
+    data = HttpWeatherServices.currentWeatherService();
     super.initState();
   }
 
@@ -52,8 +52,8 @@ class _CurrentWeatherState extends State<CurrentWeather> {
               child: ElevatedButton(
                 onPressed: () {
                   if (city != null) {
-                    data =
-                        HttpWeatherServices.weatherData(cityWeather: "$city");
+                    data = HttpWeatherServices.currentWeatherService(
+                        name: "$city");
                     setState(() {});
                   }
                 },
@@ -70,7 +70,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                       future: data,
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
-                          print(snapshot.data);
                           return Center(
                             child: Column(
                               children: [
@@ -109,15 +108,24 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                                       style: FontStyleText.info,
                                     ),
                                   ),
-                                )
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: SizedBox(
+                                    child: Text(
+                                      'На улице сейчас: ${snapshot.data?.current?.condition?.text}',
+                                      style: FontStyleText.info,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           );
                         }
                         if (snapshot.hasError) {
-                          ErrorPage();
+                          const ErrorPage();
                         }
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }),
                 ],
               ),

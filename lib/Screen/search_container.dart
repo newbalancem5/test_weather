@@ -39,8 +39,8 @@ class _SearchcontainerState extends State<Searchcontainer> {
               ElevatedButton(
                 onPressed: () {
                   if (city != null) {
-                    data =
-                        HttpWeatherServices.weatherData(cityWeather: "$city");
+                    data = HttpWeatherServices.currentWeatherService(
+                        name: "$city");
                     setState(() {});
                   }
                 },
